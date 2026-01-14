@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oversold Tickers</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-dark text-light">
+    <div class="container mt-5">
+        <h1>Ticker Analysis</h1>
+        <ul class="nav nav-tabs mt-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="/">Ticker Analysis</a>
+            </li>
+            <!--<li class="nav-item">
+                <a class="nav-link" href="/oversold">Oversold (RSI < 30)</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/overbought">Overbought (RSI > 70)</a>
+            </li>-->
+            <li class="nav-item">
+                <a href="../csv/oversold.csv" class="nav-link">Oversold From CSV</a>
+            </li>
+            <li class="nav-item">
+                <a href="../csv/overbought.csv" class="nav-link">Overbought From CSV</a>
+            </li>
+        </ul>
+        <div class="mt-5"></div> <!-- Added spacing -->
+        <form method="POST">
+            <label for="ticker" class="form-label">Enter Ticker(BTC/USDT):</label>
+            <div class="input-group" style="max-width: 300px;"> <!-- Adjusted width -->
+                <input type="text" id="ticker" name="ticker" class="form-control" required>
+                <button type="submit" class="btn btn-primary">Analyze</button>
+            </div>
+        </form>
+        {% if analysis %}
+            <h2>Analysis for {{ ticker }}</h2>
+            {% if analysis.error %}
+                <p class="text-danger">{{ analysis.error }}</p>
+            {% else %}
+                <table class="table table-striped table-dark mt-3">
+                    <thead>
+                        <tr>
+                            <th>Indicator</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>RSI</td>
+                            <td>{{ analysis.RSI }}</td>
+                        </tr>
+                        <tr>
+                            <td>Stochastic</td>
+                            <td>{{ analysis.Stochastic }}</td>
+                        </tr>
+                        <tr>
+                            <td>Bollinger Bands</td>
+                            <td>{{ analysis['Bollinger Bands'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>MACD</td>
+                            <td>{{ analysis.MACD }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+        {% endif %}
+        <div class="mt-4">
+            {% for ticker in tickers %}
+                <h3>{{ ticker.ticker }}</h3>
+                <ul>
+                    <li><strong>RSI:</strong> {{ ticker.RSI }}</li>
+                    <li><strong>Stochastic:</strong> {{ ticker.Stochastic }}</li>
+                    <li><strong>Bollinger Bands:</strong> {{ ticker['Bollinger Bands'] }}</li>
+                    <li><strong>MACD:</strong> {{ ticker.MACD }}</li>
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

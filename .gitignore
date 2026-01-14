@@ -1,0 +1,5 @@
+# Exclude app/csv/* from git
+app/csv/*
+!app/csv/.gitkeep
+# Exclude app/__pycache__/* from git
+app/__pycache__/*
